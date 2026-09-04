@@ -1,0 +1,21 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: ai-teacher-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ai_teacher
+      POSTGRES_USER: ai_teacher
+      POSTGRES_PASSWORD: ai_teacher
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_teacher -d ai_teacher"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
